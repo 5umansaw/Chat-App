@@ -7,7 +7,6 @@ const {generateMessages , generateLocationMessages} = require('./utils/messages'
 const {addUser , removeUser , getUser , getUsersInRoom} = require('./utils/users')
 
 
-
 const app = express()
 const server = http.createServer(app)
 const io = socketio(server)
@@ -49,13 +48,13 @@ io.on('connection' , (socket) =>{
 
         const user = getUser(socket.id)
 
-        io.to(user.room).emit('msgSend' , generateMessages(user.username , message))
+        io.to(user.room).emit('msgSend' , generateMessages(user.username , message , socket.id))
         callback()
     })
 
     socket.on('send-location' , (coords , callback) => {
         const user = getUser(socket.id)
-        io.to(user.room).emit('location-Message' , generateLocationMessages(user.username , `https://google.com/maps?q=${coords.latitude},${coords.longitude}`))
+        io.to(user.room).emit('location-Message' , generateLocationMessages(user.username , socket.id , `https://google.com/maps?q=${coords.latitude},${coords.longitude}`))
         callback()
     })
 

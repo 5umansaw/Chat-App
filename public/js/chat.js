@@ -8,8 +8,10 @@ const $sendLocationButton = document.querySelector('#send-location')
 const $messages = document.querySelector('#messages')
 
 //Templates
-const messageTemplate = document.querySelector('#message-template').innerHTML
-const locationTemplate = document.querySelector('#location-template').innerHTML
+const selfMessageTemplate = document.querySelector('#self-message-template').innerHTML
+const friendMessageTemplate = document.querySelector('#friend-message-template').innerHTML
+const selfLocationTemplate = document.querySelector('#self-location-template').innerHTML
+const friendLocationTemplate = document.querySelector('#friend-location-template').innerHTML
 const sidebarTemplate =  document.querySelector('#sidebar-template').innerHTML
 
 //Options
@@ -27,7 +29,7 @@ const autoScroll = () => {
     const containerHeight = $messages.scrollHeight
     const scrollOffset = $messages.scrollTop + visibleHeight
 
-    if (containerHeight - newMessageHeight <= scrollOffset) {
+    if (containerHeight - newMessageHeight  <= scrollOffset) {
         $messages.scrollTop = $messages.scrollHeight
         }
 }
@@ -35,23 +37,58 @@ const autoScroll = () => {
 
 socket.on('msgSend' , (msg) => {
     console.log(msg)
-    const html = Mustache.render(messageTemplate , {
-        message: msg.text,
-        username: msg.username,
-        createdAt: moment(msg.createdAt).format('h:mm a')
-    })
+    console.log(socket.id)
+    // const html = Mustache.render(messageTemplate , {
+    //     message: msg.text,
+    //     username: msg.username,
+    //     createdAt: moment(msg.createdAt).format('h:mm a')
+    // })
+
+    var html = {}
+    
+
+    if(socket.id === msg.id){
+        html = Mustache.render(selfMessageTemplate , {
+                message: msg.text,
+                username: msg.username,
+                createdAt: moment(msg.createdAt).format('h:mm a')
+              })
+    }else{
+        html = Mustache.render(friendMessageTemplate , {
+            message: msg.text,
+            username: msg.username,
+            createdAt: moment(msg.createdAt).format('h:mm a')
+          })
+    }
+
     $messages.insertAdjacentHTML('beforeend' , html)
     autoScroll()
 })
 
 socket.on('location-Message' , (message) => {
     console.log(URL)
-    const html = Mustache.render(locationTemplate , {
-        url: message.url,
-        username: message.username,
-        createdAt: moment(message.createdAt).format('h:mm a')
+    // const html = Mustache.render(locationTemplate , {
+    //     url: message.url,
+    //     username: message.username,
+    //     createdAt: moment(message.createdAt).format('h:mm a')
 
-    })
+    // })
+
+    var html = {}
+
+    if(socket.id === message.id){
+        html = Mustache.render(selfLocationTemplate , {
+                  url: message.url,
+                  username: message.username,
+                  createdAt: moment(message.createdAt).format('h:mm a')
+              })
+    }else{
+        html = Mustache.render(friendLocationTemplate , {
+                 url: message.url,
+                 username: message.username,
+                 createdAt: moment(message.createdAt).format('h:mm a')
+          })
+    }
     $messages.insertAdjacentHTML('beforeend' , html)
     autoScroll()
 })

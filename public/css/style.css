@@ -115,7 +115,7 @@ button:disabled {
 
 /* Message Styles */
 
-.messages {
+.friend-message {
     margin-bottom: 16px;  
     background-color: #00ccbe;
     padding-left: 10px;
@@ -125,7 +125,17 @@ button:disabled {
     
 }
 
-.messages:hover {
+.self-message {
+    margin-bottom: 16px;  
+    background-color: #00ccbe;
+    padding-left: 10px;
+    padding-right: 10px;
+    margin-left: auto;
+    border-radius: 16px;
+    max-width:fit-content;
+    
+}
+.self-message:hover , .friend-message:hover {
     transform: scale(1.10);
   }
 
@@ -144,7 +154,16 @@ button:disabled {
     color: #0070CC;
 }
 
-.locations {
+.self-location {
+    background-color : rgba(100, 238, 238, 0.5);
+    border-radius: 10px;
+    margin-bottom: 16px;
+    padding-left: 10px;
+    margin-left: auto;
+    width: 255px;
+}
+
+.friend-location {
     background-color : rgba(100, 238, 238, 0.5);
     border-radius: 10px;
     margin-bottom: 16px;
@@ -152,7 +171,7 @@ button:disabled {
     width: 255px;
 }
 
-.locations:hover {
+.self-location:hover , .friend-location:hover {
     transform: scale(1.10);
   }
 
